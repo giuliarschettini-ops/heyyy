@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heyyy × Nashy — Fluxo de Campanhas</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c26;
+    --border: #2a2a3a;
+    --accent: #ff6b35;
+    --accent2: #ffd166;
+    --vip: #e8b4ff;
+    --ouro: #ffd166;
+    --prata: #a8b8c8;
+    --bronze: #d4846a;
+    --rec: #ff6b6b;
+    --text: #f0f0f8;
+    --muted: #7070a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 48px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 64px 48px 40px;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 48px;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab {
+    padding: 14px 24px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .tab:hover { color: var(--text); }
+
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* MAIN */
+  .main {
+    padding: 48px;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* SCORE TIERS ROW */
+  .tiers-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .tier-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tier-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .tier-card.vip::before { background: var(--vip); }
+  .tier-card.ouro::before { background: var(--ouro); }
+  .tier-card.prata::before { background: var(--prata); }
+  .tier-card.bronze::before { background: var(--bronze); }
+  .tier-card.rec::before { background: var(--rec); }
+
+  .tier-card:hover, .tier-card.selected {
+    background: var(--surface2);
+    border-color: #404060;
+    transform: translateY(-2px);
+  }
+
+  .tier-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-bottom: 14px;
+  }
+
+  .tier-card.vip .tier-dot { background: var(--vip); }
+  .tier-card.ouro .tier-dot { background: var(--ouro); }
+  .tier-card.prata .tier-dot { background: var(--prata); }
+  .tier-card.bronze .tier-dot { background: var(--bronze); }
+  .tier-card.rec .tier-dot { background: var(--rec); }
+
+  .tier-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .tier-range {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .tier-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* FLOW GRID */
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr 60px 1fr;
+    gap: 0;
+    align-items: start;
+    margin-bottom: 48px;
+  }
+
+  .flow-col { display: flex; flex-direction: column; gap: 12px; }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    color: var(--muted);
+    font-size: 1.2rem;
+  }
+
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .flow-node:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .flow-node.highlight {
+    border-color: var(--accent);
+    background: rgba(255,107,53,0.06);
+  }
+
+  .node-type {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .node-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .node-body {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .node-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    margin-top: 10px;
+    margin-right: 4px;
+  }
+
+  .tag-always { background: rgba(255,107,53,0.15); color: var(--accent); }
+  .tag-tier { background: rgba(255,209,102,0.15); color: var(--ouro); }
+  .tag-sazonal { background: rgba(168,184,200,0.15); color: var(--prata); }
+
+  /* DETAIL PANEL */
+  .detail-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 48px;
+    display: none;
+  }
+
+  .detail-panel.visible { display: block; animation: fadeIn 0.3s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+
+  .panel-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .panel-close:hover { color: var(--text); border-color: #505070; }
+
+  .campaigns-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .campaign-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .campaign-icon {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+
+  .campaign-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .campaign-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .campaign-trigger {
+    margin-top: 12px;
+    font-size: 0.7rem;
+    color: var(--accent2);
+    letter-spacing: 0.04em;
+  }
+
+  /* SCORE VIEW */
+  .score-formula {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .formula-eq {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    font-weight: 700;
+    color: var(--text);
+    line-height: 2;
+    letter-spacing: -0.02em;
+  }
+
+  .formula-eq .w {
+    color: var(--accent2);
+    font-size: 0.85em;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .pillar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+
+  .pillar-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .pillar-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ALWAYS-ON VIEW */
+  .always-on-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 40px;
+  }
+
+  .ao-step {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .ao-trigger {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ao-trigger-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .ao-trigger-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .ao-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--border);
+    font-size: 1.2rem;
+    height: 24px;
+    grid-column: 1 / -1;
+    padding-left: 80px;
+  }
+
+  .ao-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .ao-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .ao-card-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .ao-card-text {
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  /* SEGMENTATION VIEW */
+  .seg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .seg-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+
+  .seg-icon {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+  }
+
+  .seg-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .seg-list {
+    list-style: none;
+  }
+
+  .seg-list li {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.4;
+  }
+
+  .seg-list li:last-child { border-bottom: none; }
+
+  .seg-list li::before {
+    content: '→ ';
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  .footer-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .footer-brand span { color: var(--accent); }
+
+  /* MENSAGENS VIEW */
+  .msg-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 40px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .msg-intro-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .msg-intro-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .msg-intro-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .msg-intro-label strong {
+    display: block;
+    color: var(--text);
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+  }
+
+  .persona-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .ptab {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ptab:hover { color: var(--text); border-color: #404060; }
+  .ptab.active { background: var(--surface2); color: var(--text); border-color: #404060; }
+
+  .ptab .pdot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  .persona-view { display: none; }
+  .persona-view.active { display: block; animation: fadeIn 0.3s ease; }
+
+  .persona-header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .persona-avatar {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    background: var(--surface2);
+    border: 2px solid var(--border);
+  }
+
+  .persona-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .persona-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .persona-score-box {
+    text-align: right;
+  }
+
+  .persona-score-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .persona-score-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .persona-tier-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .logic-strip {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr;
+    gap: 0;
+    align-items: center;
+    margin-bottom: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+  }
+
+  .logic-item { text-align: center; }
+
+  .logic-label {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .logic-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .logic-arrow {
+    text-align: center;
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+
+  .messages-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .msg-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .msg-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .msg-block-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .msg-step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .msg-block-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .msg-block-subtitle {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .msg-timing {
+    font-size: 0.7rem;
+    color: var(--accent2);
+    background: rgba(255,209,102,0.1);
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  .msg-content {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .msg-rationale {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+
+  .msg-rationale-label {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .msg-rationale-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .msg-rationale-items li {
+    font-size: 0.78rem;
+    color: var(--text);
+    line-height: 1.45;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .msg-rationale-items li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  .msg-bubble-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .msg-channel {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .msg-bubble {
+    background: #1e2a1e;
+    border: 1px solid #2a3d2a;
+    border-radius: 0 16px 16px 16px;
+    padding: 16px 18px;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: #d4f0d4;
+    white-space: pre-wrap;
+  }
+
+  .msg-bubble.whatsapp { background: #1a2a1e; border-color: #2d4a2d; color: #c8efc8; }
+  .msg-bubble.push { background: #1a1a2e; border-color: #2a2a4a; color: #c8c8f0; border-radius: 12px; }
+
+  .msg-bubble-footer {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  .incentive-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 8px;
+  }
+
+  .incentive-tag.premium { background: rgba(232,180,255,0.12); color: var(--vip); }
+  .incentive-tag.medio { background: rgba(255,209,102,0.12); color: var(--ouro); }
+  .incentive-tag.basico { background: rgba(168,184,200,0.12); color: var(--prata); }
+  .incentive-tag.urgente { background: rgba(255,107,107,0.12); color: var(--rec); }
+
+  @media (max-width: 900px) {
+    .tiers-row { grid-template-columns: repeat(3, 1fr); }
+    .flow-grid { grid-template-columns: 1fr; }
+    .flow-arrow { display: none; }
+    .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+    .seg-grid { grid-template-columns: 1fr; }
+    .header, .main, .tabs, .hero { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">heyyy<span>×</span>nashy</div>
+  <div class="badge">Framework de Comunicação</div>
+</header>
+
+<div class="hero">
+  <div class="hero-tag">Plataforma Heyyy · Estratégia de Dados</div>
+  <h1>Campanhas inteligentes<br>baseadas em <em>comportamento</em></h1>
+  <p>Um motor de segmentação que ativa o cliente certo, com o incentivo certo, no momento certo — sem desperdício de verba, sem achismo.</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('fluxo')">Fluxo de Campanhas</div>
+  <div class="tab" onclick="switchTab('score')">Score & Tiers</div>
+  <div class="tab" onclick="switchTab('segmentacao')">Segmentações</div>
+  <div class="tab" onclick="switchTab('alwayson')">Always-on</div>
+  <div class="tab" onclick="switchTab('mensagens')">✦ Exemplos de Mensagens</div>
+</div>
+
+<div class="main">
+
+  <!-- FLUXO -->
+  <div id="view-fluxo" class="view active">
+
+    <div class="section-label">Clique em um tier para ver as campanhas específicas</div>
+
+    <div class="tiers-row">
+      <div class="tier-card vip" onclick="showTierPanel('vip')">
+        <div class="tier-dot"></div>
+        <div class="tier-name">VIP</div>
+        <div class="tier-range">90–100</div>
+        <div class="tier-desc">Ticket alto, frequência alta. Fidelidade máxima.</div>
+      </div>
+      <div class="tier-card ouro" onclick="showTierPanel('ouro')">
+        <div class="tier-dot"></div>
+        <div class="tier-name">Ouro</div>
+        <div class="tier-range">75–89</div>
+        <div class="tier-desc">Ticket médio-alto. Frequência boa.</div>
+      </div>
+      <div class="tier-card prata" onclick="showTierPanel('prata')">
+        <div class="tier-dot"></div>
+        <div class="tier-name">Prata</div>
+        <div class="tier-range">60–74</div>
+        <div class="tier-desc">Frequência média. Ticket moderado.</div>
+      </div>
+      <div class="tier-card bronze" onclick="showTierPanel('bronze')">
+        <div class="tier-dot"></div>
+        <div class="tier-name">Bronze</div>
+        <div class="tier-range">40–59</div>
+        <div class="tier-desc">Frequência baixa. Ticket baixo.</div>
+      </div>
+      <div class="tier-card rec" onclick="showTierPanel('rec')">
+        <div class="tier-dot"></div>
+        <div class="tier-name">Recuperação</div>
+        <div class="tier-range">&lt;40</div>
+        <div class="tier-desc">&gt;30–90 dias sem visita. Gatilho urgente.</div>
+      </div>
+    </div>
+
+    <div id="tier-detail" class="detail-panel">
+      <div class="panel-header">
+        <div>
+          <div id="panel-subtitle" class="section-label" style="margin-bottom:6px"></div>
+          <div id="panel-title" class="panel-title"></div>
+        </div>
+        <button class="panel-close" onclick="closePanel()">✕</button>
+      </div>
+      <div id="panel-campaigns" class="campaigns-grid"></div>
+    </div>
+
+    <div class="section-label">Lógica geral do fluxo</div>
+
+    <div class="flow-grid">
+      <div class="flow-col">
+        <div class="flow-node highlight">
+          <div class="node-type">Entrada</div>
+          <div class="node-title">Dados do Cliente</div>
+          <div class="node-body">Plataforma Heyyy coleta visitas, ticket, recência e comportamento de consumo em tempo real.</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-col">
+        <div class="flow-node">
+          <div class="node-type">Processamento</div>
+          <div class="node-title">Score Calculado</div>
+          <div class="node-body">Frequência (40%) + Recência (25%) + Ticket (25%) + Engajamento (10%) = Score 0–100.</div>
+          <span class="node-tag tag-always">Automático</span>
+        </div>
+        <div class="flow-node">
+          <div class="node-type">Classificação</div>
+          <div class="node-title">Tier Atribuído</div>
+          <div class="node-body">VIP / Ouro / Prata / Bronze / Em Recuperação — atualizado a cada nova visita.</div>
+        </div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-col">
+        <div class="flow-node">
+          <div class="node-type">Saída</div>
+          <div class="node-title">Campanha Ativada</div>
+          <div class="node-body">Mensagem personalizada com incentivo alinhado ao perfil, comportamento e momento do cliente.</div>
+          <span class="node-tag tag-tier">Por Tier</span>
+          <span class="node-tag tag-always">Always-on</span>
+          <span class="node-tag tag-sazonal">Sazonal</span>
+        </div>
+        <div class="flow-node">
+          <div class="node-type">Feedback</div>
+          <div class="node-title">Engajamento Medido</div>
+          <div class="node-body">Abertura, ativação de cupom e retorno ao restaurante atualizam o score do cliente.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Tipos de campanha</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div class="flow-node">
+        <div class="node-type" style="color:var(--accent)">Always-on</div>
+        <div class="node-title">Comportamental</div>
+        <div class="node-body">Recência 30d · Recência 90d · Pós-primeira visita · Aniversariante · Pós-pesquisa NPS</div>
+      </div>
+      <div class="flow-node">
+        <div class="node-type" style="color:var(--ouro)">Por Tier</div>
+        <div class="node-title">Fidelização</div>
+        <div class="node-body">VIP exclusividade · Ouro condições especiais · Prata estímulo · Bronze engajamento · Recuperação gatilho forte</div>
+      </div>
+      <div class="flow-node">
+        <div class="node-type" style="color:var(--prata)">Sazonal</div>
+        <div class="node-title">Calendário</div>
+        <div class="node-body">Datas comemorativas · Feriados · Dias de baixo movimento · Eventos próprios Nashy</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCORE -->
+  <div id="view-score" class="view">
+
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-pct">40%</div>
+        <div class="pillar-name">Frequência</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-pct">25%</div>
+        <div class="pillar-name">Recência</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-pct">25%</div>
+        <div class="pillar-name">Ticket Médio</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-pct">10%</div>
+        <div class="pillar-name">Engajamento</div>
+      </div>
+    </div>
+
+    <div class="score-formula">
+      <div class="section-label" style="margin-bottom:24px">Fórmula do Score Total (0–100)</div>
+      <div class="formula-eq">
+        SCORE = Freq<span class="w">×0,40</span> + Recência<span class="w">×0,25</span> + Ticket<span class="w">×0,25</span> + Engaj<span class="w">×0,10</span>
+      </div>
+    </div>
+
+    <div class="section-label">Classificação em Tiers</div>
+    <div class="tiers-row">
+      <div class="tier-card vip" style="cursor:default">
+        <div class="tier-dot"></div>
+        <div class="tier-name" style="color:var(--vip)">VIP</div>
+        <div class="tier-range">90–100</div>
+        <div class="tier-desc">Exclusividade, convites, early access, prioridade total.</div>
+      </div>
+      <div class="tier-card ouro" style="cursor:default">
+        <div class="tier-dot"></div>
+        <div class="tier-name" style="color:var(--ouro)">Ouro</div>
+        <div class="tier-range">75–89</div>
+        <div class="tier-desc">Condições especiais de fidelização e reconhecimento.</div>
+      </div>
+      <div class="tier-card prata" style="cursor:default">
+        <div class="tier-dot"></div>
+        <div class="tier-name" style="color:var(--prata)">Prata</div>
+        <div class="tier-range">60–74</div>
+        <div class="tier-desc">Estímulo de frequência com ofertas relevantes.</div>
+      </div>
+      <div class="tier-card bronze" style="cursor:default">
+        <div class="tier-dot"></div>
+        <div class="tier-name" style="color:var(--bronze)">Bronze</div>
+        <div class="tier-range">40–59</div>
+        <div class="tier-desc">Campanhas de engajamento e educação de valor.</div>
+      </div>
+      <div class="tier-card rec" style="cursor:default">
+        <div class="tier-dot"></div>
+        <div class="tier-name" style="color:var(--rec)">Recuperação</div>
+        <div class="tier-range">&lt;40</div>
+        <div class="tier-desc">Gatilho forte e personalizado. Reativação urgente.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEGMENTAÇÃO -->
+  <div id="view-segmentacao" class="view">
+    <div class="section-label" style="margin-bottom:24px">Dimensões de segmentação usadas nas campanhas</div>
+    <div class="seg-grid">
+      <div class="seg-block">
+        <div class="seg-icon">🍽️</div>
+        <div class="seg-title">Comportamento de Consumo</div>
+        <ul class="seg-list">
+          <li>Ticket médio por faixa</li>
+          <li>Frequência semanal / mensal / eventual</li>
+          <li>Costuma pedir rodízio?</li>
+          <li>Prefere pratos quentes?</li>
+          <li>Pede sobremesa?</li>
+          <li>Bebida alcoólica ou suco/refri?</li>
+          <li>Prato favorito identificado</li>
+        </ul>
+      </div>
+      <div class="seg-block">
+        <div class="seg-icon">📍</div>
+        <div class="seg-title">Perfil Demográfico & Jornada</div>
+        <ul class="seg-list">
+          <li>Mora em BH?</li>
+          <li>Local ou visitante esporádico?</li>
+          <li>Filial preferida (geolocalização)</li>
+          <li>Vai acompanhado? (parceiro, amigos)</li>
+          <li>Possui filhos?</li>
+          <li>Aniversariante do mês</li>
+          <li>Primeira visita (onboarding)</li>
+        </ul>
+      </div>
+      <div class="seg-block">
+        <div class="seg-icon">💬</div>
+        <div class="seg-title">Satisfação (NPS)</div>
+        <ul class="seg-list">
+          <li>Promotores → incentivo leve, recorrência</li>
+          <li>Neutros → campanha de upgrade</li>
+          <li>Detratores → recuperação especial</li>
+          <li>Responde pesquisa: +10 pts engaj.</li>
+          <li>Abre campanhas: +5 pts engaj.</li>
+          <li>Ativa cupom: +5 pts engaj.</li>
+        </ul>
+      </div>
+      <div class="seg-block">
+        <div class="seg-icon">⏱️</div>
+        <div class="seg-title">Recência & Urgência</div>
+        <ul class="seg-list">
+          <li>0–7 dias: 100 pts</li>
+          <li>8–14 dias: 85 pts</li>
+          <li>15–30 dias: 60 pts · alerta leve</li>
+          <li>31–60 dias: 30 pts · risco médio</li>
+          <li>61–90 dias: 10 pts · risco alto</li>
+          <li>&gt;90 dias: recuperação crítica</li>
+        </ul>
+      </div>
+      <div class="seg-block">
+        <div class="seg-icon">🎯</div>
+        <div class="seg-title">Incentivos Estratégicos</div>
+        <ul class="seg-list">
+          <li>Bebe álcool → drink exclusivo / upgrade</li>
+          <li>Não bebe → sobremesa ou entrada</li>
+          <li>Pede rodízio → campanha de fidelização</li>
+          <li>Nunca pede sobremesa → experimentação</li>
+          <li>Vai acompanhado → oferta 2ª pessoa</li>
+          <li>Horário vazio → incentivo neste horário</li>
+        </ul>
+      </div>
+      <div class="seg-block">
+        <div class="seg-icon">📈</div>
+        <div class="seg-title">ROI & Resultado Esperado</div>
+        <ul class="seg-list">
+          <li>Incentivo alinhado ao perfil = menos desconto</li>
+          <li>Aumenta frequência com menor custo</li>
+          <li>Brindes que aumentam ticket</li>
+          <li>Combos com margem alta</li>
+          <li>Ativa cliente certo no momento certo</li>
+          <li>Motor de comunicação autônomo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALWAYS-ON -->
+  <div id="view-alwayson" class="view">
+    <div class="section-label" style="margin-bottom:32px">Campanhas ativadas automaticamente por gatilho comportamental</div>
+
+    <div class="always-on-flow">
+
+      <div class="ao-step">
+        <div class="ao-trigger">
+          <div class="ao-trigger-label">Gatilho</div>
+          <div class="ao-trigger-value">Recência 30 dias</div>
+        </div>
+        <div class="ao-content">
+          <div class="ao-card">
+            <div class="ao-card-label">Tom</div>
+            <div class="ao-card-text">Leve, amigável. "A gente sentiu sua falta."</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Incentivo</div>
+            <div class="ao-card-text">Alinhado ao consumo favorito. Sem desconto direto.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Objetivo</div>
+            <div class="ao-card-text">Reativar antes de virar risco real.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ao-connector">↓</div>
+
+      <div class="ao-step">
+        <div class="ao-trigger">
+          <div class="ao-trigger-label">Gatilho</div>
+          <div class="ao-trigger-value">Recência 90 dias</div>
+        </div>
+        <div class="ao-content">
+          <div class="ao-card">
+            <div class="ao-card-label">Tom</div>
+            <div class="ao-card-text">Urgente, personalizado. Oferta exclusiva de retorno.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Incentivo</div>
+            <div class="ao-card-text">Gatilho forte. Pode incluir desconto pontual ou brinde especial.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Objetivo</div>
+            <div class="ao-card-text">Recuperação crítica antes de perda definitiva.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ao-connector">↓</div>
+
+      <div class="ao-step">
+        <div class="ao-trigger">
+          <div class="ao-trigger-label">Gatilho</div>
+          <div class="ao-trigger-value">Primeira Visita</div>
+        </div>
+        <div class="ao-content">
+          <div class="ao-card">
+            <div class="ao-card-label">Tom</div>
+            <div class="ao-card-text">Boas-vindas calorosas. Apresentação do Nashy.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Incentivo</div>
+            <div class="ao-card-text">Convite para segunda visita. Destaca o que ele consumiu.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Objetivo</div>
+            <div class="ao-card-text">Onboarding. Transformar visita única em hábito.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ao-connector">↓</div>
+
+      <div class="ao-step">
+        <div class="ao-trigger">
+          <div class="ao-trigger-label">Gatilho</div>
+          <div class="ao-trigger-value">Aniversariante do mês</div>
+        </div>
+        <div class="ao-content">
+          <div class="ao-card">
+            <div class="ao-card-label">Tom</div>
+            <div class="ao-card-text">Afetivo, especial. Faz o cliente se sentir lembrado.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Incentivo</div>
+            <div class="ao-card-text">Presente simbólico. Sobremesa, drink ou entrada no dia.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Objetivo</div>
+            <div class="ao-card-text">Gerar visita + trazer acompanhantes. Aumenta ticket.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ao-connector">↓</div>
+
+      <div class="ao-step">
+        <div class="ao-trigger">
+          <div class="ao-trigger-label">Gatilho</div>
+          <div class="ao-trigger-value">Pós-NPS enviado</div>
+        </div>
+        <div class="ao-content">
+          <div class="ao-card">
+            <div class="ao-card-label">Promotor</div>
+            <div class="ao-card-text">Incentivo leve de recorrência. Indica amigos.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Neutro</div>
+            <div class="ao-card-text">Campanha de upgrade. Mostrar novidades e valor.</div>
+          </div>
+          <div class="ao-card">
+            <div class="ao-card-label">Detrator</div>
+            <div class="ao-card-text">Recuperação especial. Pesquisa + convite retorno VIP.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- MENSAGENS -->
+  <div id="view-mensagens" class="view">
+
+    <div class="msg-intro">
+      <div class="msg-intro-item">
+        <div class="msg-intro-num">01</div>
+        <div class="msg-intro-label"><strong>Score define o prêmio</strong>Quanto maior o score, mais premium e exclusivo é o incentivo oferecido. VIP recebe experiências; Bronze recebe engajamento.</div>
+      </div>
+      <div class="msg-intro-item">
+        <div class="msg-intro-num">02</div>
+        <div class="msg-intro-label"><strong>Consumo define o incentivo</strong>O que a pessoa consome orienta o que ela vai receber — sempre maximizando ROI com itens de alta margem ou que elevam o ticket.</div>
+      </div>
+      <div class="msg-intro-item">
+        <div class="msg-intro-num">03</div>
+        <div class="msg-intro-label"><strong>Segmentação define o quando</strong>Recência, NPS, aniversário e comportamento determinam o momento exato em que cada mensagem é disparada.</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-bottom:16px">Selecione um perfil para ver o fluxo completo de comunicação</div>
+
+    <div class="persona-tabs">
+      <div class="ptab active" onclick="switchPersona('marina')">
+        <div class="pdot" style="background:var(--vip)"></div>
+        Marina · VIP
+      </div>
+      <div class="ptab" onclick="switchPersona('rafael')">
+        <div class="pdot" style="background:var(--ouro)"></div>
+        Rafael · Ouro
+      </div>
+      <div class="ptab" onclick="switchPersona('camila')">
+        <div class="pdot" style="background:var(--prata)"></div>
+        Camila · Prata
+      </div>
+      <div class="ptab" onclick="switchPersona('joao')">
+        <div class="pdot" style="background:var(--rec)"></div>
+        João · Recuperação
+      </div>
+    </div>
+
+    <!-- PERSONA: MARINA VIP -->
+    <div id="persona-marina" class="persona-view active">
+      <div class="persona-header">
+        <div class="persona-avatar">👩‍💼</div>
+        <div>
+          <div class="persona-name">Marina S.</div>
+          <div class="persona-meta">
+            Frequência: 2× por semana · Última visita: 3 dias atrás<br>
+            Sempre pede rodízio + bebida alcoólica · NPS: Promotora
+          </div>
+          <div class="persona-tier-badge" style="background:rgba(232,180,255,0.15);color:var(--vip)">★ VIP</div>
+        </div>
+        <div class="persona-score-box">
+          <div class="persona-score-val" style="color:var(--vip)">94</div>
+          <div class="persona-score-label">Score total</div>
+        </div>
+      </div>
+
+      <div class="logic-strip">
+        <div class="logic-item">
+          <div class="logic-label">Score</div>
+          <div class="logic-value" style="color:var(--vip)">94 · VIP</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Nível do incentivo</div>
+          <div class="logic-value">Premium &amp; exclusivo</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Consumo favorito</div>
+          <div class="logic-value">Rodízio + drink</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Incentivo ideal</div>
+          <div class="logic-value">Experiência exclusiva<br>+ upgrade de bebida</div>
+        </div>
+      </div>
+
+      <div class="messages-flow">
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">1</div>
+              <div>
+                <div class="msg-block-title">Early Access — Novo Menu</div>
+                <div class="msg-block-subtitle">Gatilho: nova atualização no cardápio · Score ≥ 90</div>
+              </div>
+            </div>
+            <div class="msg-timing">Antes do lançamento público</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Por que essa mensagem?</div>
+              <ul class="msg-rationale-items">
+                <li>Score VIP = merece exclusividade real, não só desconto</li>
+                <li>Frequência alta = já conhece bem o Nashy, aprecia novidades</li>
+                <li>Promotora NPS = vai compartilhar a experiência com outros</li>
+                <li>Incentivo de alto ROI: ela já pede rodízio, não precisa de desconto no ticket</li>
+              </ul>
+              <div class="incentive-tag premium">✦ Incentivo premium</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">Oi Marina! 🙌
+
+Antes de todo mundo, a gente quer te contar: o cardápio do Nashy ganhou novidades essa semana.
+
+Como uma das nossas clientes mais especiais, você tem acesso antecipado — amanhã e quinta, antes do anúncio oficial.
+
+Reserva uma mesa pra você? É só responder aqui. 🍷</div>
+              <div class="msg-bubble-footer">✓✓ Entregue · Aguarda resposta</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">2</div>
+              <div>
+                <div class="msg-block-title">Upgrade de Experiência — Visita Confirmada</div>
+                <div class="msg-block-subtitle">Gatilho: reserva confirmada ou visita detectada · Consome bebida alcoólica</div>
+              </div>
+            </div>
+            <div class="msg-timing">Dia da visita · manhã</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Por que esse incentivo?</div>
+              <ul class="msg-rationale-items">
+                <li>Ela já pede bebida alcoólica — o upgrade eleva a experiência sem ser genérico</li>
+                <li>Drink exclusivo = alto valor percebido, custo controlado para o Nashy</li>
+                <li>Reforça o sentimento de ser especial sem comprometer margem no rodízio</li>
+              </ul>
+              <div class="incentive-tag premium">✦ Upgrade bebida · alto ROI</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">Push notification</div>
+              <div class="msg-bubble push">🍸 Marina, hoje é dia especial.
+
+Preparamos um drink exclusivo pra você — disponível só hoje, só pra quem é VIP.
+
+A gente te espera! Até logo 👋</div>
+              <div class="msg-bubble-footer">Entregue às 11h32</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">3</div>
+              <div>
+                <div class="msg-block-title">Pós-visita — NPS + Recorrência</div>
+                <div class="msg-block-subtitle">Gatilho: saída detectada · sempre enviado para promotores VIP</div>
+              </div>
+            </div>
+            <div class="msg-timing">2h após a visita</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Objetivo duplo</div>
+              <ul class="msg-rationale-items">
+                <li>Coletar NPS enquanto a experiência ainda está fresca</li>
+                <li>Plantar semente da próxima visita sem parecer agressivo</li>
+                <li>Promotora VIP = potencial de indicação. Vale nutrir esse canal</li>
+              </ul>
+              <div class="incentive-tag premium">✦ Fidelização suave</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">Marina, boa noite! 🌙
+
+Esperamos que tenha curtido. O que você achou dessa visita?
+
+⭐⭐⭐⭐⭐ → bit.ly/nashy-nps
+
+E se quiser já garantir sua próxima mesa — semana que vem temos uma novidade que acho que você vai gostar. 😉</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PERSONA: RAFAEL OURO -->
+    <div id="persona-rafael" class="persona-view">
+      <div class="persona-header">
+        <div class="persona-avatar">👨‍💻</div>
+        <div>
+          <div class="persona-name">Rafael M.</div>
+          <div class="persona-meta">
+            Frequência: 2× por mês · Última visita: 18 dias atrás<br>
+            Pede rodízio · vai sempre com a namorada · NPS: Promotor
+          </div>
+          <div class="persona-tier-badge" style="background:rgba(255,209,102,0.15);color:var(--ouro)">◆ Ouro</div>
+        </div>
+        <div class="persona-score-box">
+          <div class="persona-score-val" style="color:var(--ouro)">81</div>
+          <div class="persona-score-label">Score total</div>
+        </div>
+      </div>
+
+      <div class="logic-strip">
+        <div class="logic-item">
+          <div class="logic-label">Score</div>
+          <div class="logic-value" style="color:var(--ouro)">81 · Ouro</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Nível do incentivo</div>
+          <div class="logic-value">Condição especial</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Perfil chave</div>
+          <div class="logic-value">Vai acompanhado · casal</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Incentivo ideal</div>
+          <div class="logic-value">Oferta para 2 pessoas<br>(eleva ticket da mesa)</div>
+        </div>
+      </div>
+
+      <div class="messages-flow">
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">1</div>
+              <div>
+                <div class="msg-block-title">Estímulo de Retorno — Recência 18 dias</div>
+                <div class="msg-block-subtitle">Gatilho: recência entre 15–21 dias · perfil casal identificado</div>
+              </div>
+            </div>
+            <div class="msg-timing">Recência 18 dias · quinta-feira</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Lógica do incentivo</div>
+              <ul class="msg-rationale-items">
+                <li>Score Ouro = merece condição especial, mas não exclusividade VIP</li>
+                <li>Sempre vai acompanhado = oferta para 2 eleva ticket e facilita decisão</li>
+                <li>Quinta é dia estratégico: antecipa o fim de semana com movimento menor</li>
+                <li>Sobremesa de brinde = alto valor percebido, custo real baixo</li>
+              </ul>
+              <div class="incentive-tag medio">◆ Incentivo casal · ROI alto</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">Oi Rafael! 😊
+
+Faz um tempinho que você e a namorada não aparecem por aqui.
+
+Que tal um jantar essa semana? Pra vocês dois, temos uma surpresa: a sobremesa do chef vai por conta da gente. 🍮
+
+Quinta e sexta têm mesa disponível. Bora? É só confirmar aqui!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">2</div>
+              <div>
+                <div class="msg-block-title">Fidelização por Rodízio — Nº de visitas</div>
+                <div class="msg-block-subtitle">Gatilho: 5ª visita com rodízio completada</div>
+              </div>
+            </div>
+            <div class="msg-timing">Após 5ª visita com rodízio</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Por que agora?</div>
+              <ul class="msg-rationale-items">
+                <li>Marco de 5 rodízios = momento simbólico para reconhecer</li>
+                <li>Reforça o comportamento que o Nashy quer manter (rodízio = ticket fixo alto)</li>
+                <li>Cria expectativa positiva para o próximo ciclo de 5 visitas</li>
+              </ul>
+              <div class="incentive-tag medio">◆ Reconhecimento · reforça hábito</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">Rafael! 🎉
+
+Você acabou de completar 5 rodízios no Nashy. Isso merece comemoração.
+
+No seu próximo, você e sua acompanhante ganham uma entrada especial antes do rodízio começar. É o nosso obrigado por fazer parte daqui. 
+
+A gente te espera! 🍽️</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PERSONA: CAMILA PRATA -->
+    <div id="persona-camila" class="persona-view">
+      <div class="persona-header">
+        <div class="persona-avatar">👩‍🎨</div>
+        <div>
+          <div class="persona-name">Camila T.</div>
+          <div class="persona-meta">
+            Frequência: 1× por mês · Última visita: 28 dias atrás<br>
+            Prefere pratos quentes · nunca pede sobremesa · NPS: Neutro
+          </div>
+          <div class="persona-tier-badge" style="background:rgba(168,184,200,0.15);color:var(--prata)">● Prata</div>
+        </div>
+        <div class="persona-score-box">
+          <div class="persona-score-val" style="color:var(--prata)">67</div>
+          <div class="persona-score-label">Score total</div>
+        </div>
+      </div>
+
+      <div class="logic-strip">
+        <div class="logic-item">
+          <div class="logic-label">Score</div>
+          <div class="logic-value" style="color:var(--prata)">67 · Prata</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Nível do incentivo</div>
+          <div class="logic-value">Estímulo moderado</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Oportunidade</div>
+          <div class="logic-value">Nunca pede sobremesa</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Incentivo ideal</div>
+          <div class="logic-value">Experimentação<br>controlada (ticket ↑)</div>
+        </div>
+      </div>
+
+      <div class="messages-flow">
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">1</div>
+              <div>
+                <div class="msg-block-title">Destaque de Novidade — Prato quente</div>
+                <div class="msg-block-subtitle">Gatilho: novo item quente no cardápio · recência 28 dias</div>
+              </div>
+            </div>
+            <div class="msg-timing">Recência 28 dias · quarta-feira</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Lógica do incentivo</div>
+              <ul class="msg-rationale-items">
+                <li>Prefere pratos quentes = comunicar novidade nessa categoria é cirúrgico</li>
+                <li>Neutro no NPS = precisa de razão concreta para voltar e se encantar</li>
+                <li>Recência 28 dias = ainda não virou risco, mas está chegando perto</li>
+                <li>Mensagem direta, sem brinde — ainda não é urgente</li>
+              </ul>
+              <div class="incentive-tag basico">● Estímulo direto</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">Camila, oi! 🔥
+
+Acabou de entrar no cardápio: um novo prato quente que achamos que você vai amar.
+
+É o tipo de coisa que precisa ser provada pessoalmente — foto não faz jus. 😄
+
+Se quiser vir conhecer essa semana, a gente reserva sua mesa!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">2</div>
+              <div>
+                <div class="msg-block-title">Experimentação Sobremesa — Ticket up</div>
+                <div class="msg-block-subtitle">Gatilho: visita confirmada · 0 pedidos de sobremesa no histórico</div>
+              </div>
+            </div>
+            <div class="msg-timing">Dia da visita · ao chegar</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Por que sobremesa?</div>
+              <ul class="msg-rationale-items">
+                <li>Nunca pediu sobremesa = oportunidade de expandir o ticket médio dela</li>
+                <li>Brinde de sobremesa = custo baixo para o Nashy, alto impacto no encantamento</li>
+                <li>Se ela gostar, vira comportamento recorrente — ROI de longo prazo</li>
+              </ul>
+              <div class="incentive-tag basico">● Experimentação · ROI futuro</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">Push notification</div>
+              <div class="msg-bubble push">🍮 Oi Camila, bem-vinda!
+
+Hoje a sobremesa da casa vai por conta do Nashy — pra você experimentar pela primeira vez.
+
+Só falar com a gente no fim da refeição. Aproveite! 🙂</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PERSONA: JOÃO RECUPERAÇÃO -->
+    <div id="persona-joao" class="persona-view">
+      <div class="persona-header">
+        <div class="persona-avatar">👨‍🦱</div>
+        <div>
+          <div class="persona-name">João P.</div>
+          <div class="persona-meta">
+            Era frequente · Última visita: 74 dias atrás<br>
+            Histórico bom · pedia rodízio + bebida · NPS: sem resposta recente
+          </div>
+          <div class="persona-tier-badge" style="background:rgba(255,107,107,0.15);color:var(--rec)">⚠ Recuperação</div>
+        </div>
+        <div class="persona-score-box">
+          <div class="persona-score-val" style="color:var(--rec)">28</div>
+          <div class="persona-score-label">Score total</div>
+        </div>
+      </div>
+
+      <div class="logic-strip">
+        <div class="logic-item">
+          <div class="logic-label">Score</div>
+          <div class="logic-value" style="color:var(--rec)">28 · Recuperação</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Nível do incentivo</div>
+          <div class="logic-value">Gatilho forte</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Histórico</div>
+          <div class="logic-value">Rodízio + drink<br>era frequente</div>
+        </div>
+        <div class="logic-arrow">→</div>
+        <div class="logic-item">
+          <div class="logic-label">Incentivo ideal</div>
+          <div class="logic-value">Proposta clara + urgência<br>baseada no histórico dele</div>
+        </div>
+      </div>
+
+      <div class="messages-flow">
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">1</div>
+              <div>
+                <div class="msg-block-title">Reativação Personalizada — Saudade real</div>
+                <div class="msg-block-subtitle">Gatilho: recência 60–75 dias · bom histórico anterior</div>
+              </div>
+            </div>
+            <div class="msg-timing">Recência 74 dias</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Lógica do incentivo</div>
+              <ul class="msg-rationale-items">
+                <li>Era frequente = alto valor potencial. Vale um incentivo mais generoso para reativar</li>
+                <li>Score caiu por recência, não por ticket baixo = cliente de qualidade em risco</li>
+                <li>Proposta específica com o que ele consumia = mostra que o Nashy lembra dele</li>
+                <li>Tom urgente mas humano — não pode parecer disparo genérico</li>
+              </ul>
+              <div class="incentive-tag urgente">⚠ Gatilho forte · recuperação</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">João, quanto tempo! 🙏
+
+A gente reparou que faz mais de 2 meses que você não vem — e sentimos sua falta de verdade.
+
+Pra te receber de volta como você merece: no seu próximo rodízio, o primeiro drink é por conta do Nashy.
+
+Sem prazo de validade curto, sem letra miúda. Só nosso obrigado por ter sido um cliente incrível.
+
+Bora marcar? 🍷</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg-block">
+          <div class="msg-block-header">
+            <div class="msg-block-left">
+              <div class="msg-step-num">2</div>
+              <div>
+                <div class="msg-block-title">Pesquisa Rápida — Se não responder em 7 dias</div>
+                <div class="msg-block-subtitle">Gatilho: nenhuma resposta após primeira mensagem de recuperação</div>
+              </div>
+            </div>
+            <div class="msg-timing">+7 dias sem resposta</div>
+          </div>
+          <div class="msg-content">
+            <div class="msg-rationale">
+              <div class="msg-rationale-label">Por que perguntar?</div>
+              <ul class="msg-rationale-items">
+                <li>Entender por que sumiu gera dados reais para produto e operação</li>
+                <li>Pergunta direta desarmante — diferente de mais um push de oferta</li>
+                <li>Se responder "tive um problema", o Nashy pode tratar individualmente</li>
+                <li>Mesmo que não volte, o dado vale ouro para evitar mais Joãos</li>
+              </ul>
+              <div class="incentive-tag urgente">⚠ Escuta ativa</div>
+            </div>
+            <div class="msg-bubble-wrap">
+              <div class="msg-channel">WhatsApp</div>
+              <div class="msg-bubble whatsapp">João, oi! Uma pergunta rápida e honesta:
+
+Teve algo que te fez parar de vir ao Nashy? 🤔
+
+Não precisa ser educado — sua resposta vai ajudar a gente a melhorar de verdade.
+
+( ) Mudei de rotina
+( ) Tive uma experiência ruim
+( ) Achei caro
+( ) Outro motivo
+
+Obrigado por 1 segundo do seu tempo. 🙏</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">heyyy<span>.</span>platform · Nashy Restaurant · 2025</div>
+  <div class="badge">Dados → Segmentação → Campanha → Resultado</div>
+</footer>
+
+<script>
+const tierData = {
+  vip: {
+    name: 'VIP — Score 90–100',
+    sub: 'Tier VIP · Prioridade máxima',
+    campaigns: [
+      { icon: '👑', name: 'Acesso Antecipado', desc: 'Early access a novidades do cardápio antes de qualquer outro cliente.', trigger: 'Ativado: score ≥ 90' },
+      { icon: '🎟️', name: 'Convites Exclusivos', desc: 'Eventos fechados, noites especiais e experiências únicas no Nashy.', trigger: 'Ativado: tier VIP ativo' },
+      { icon: '⭐', name: 'Prioridade Total', desc: 'Atendimento prioritário, mesa preferencial e reconhecimento presencial.', trigger: 'Ativado: sempre' },
+      { icon: '🎁', name: 'Brinde Premium', desc: 'Brinde estratégico que aumenta ticket — ex: upgrade de bebida ou prato exclusivo.', trigger: 'Ativado: visita confirmada' },
+    ]
+  },
+  ouro: {
+    name: 'Ouro — Score 75–89',
+    sub: 'Tier Ouro · Fidelização avançada',
+    campaigns: [
+      { icon: '💛', name: 'Condições Especiais', desc: 'Ofertas de fidelização que reconhecem o nível do cliente sem virar desconto.', trigger: 'Ativado: tier Ouro ativo' },
+      { icon: '🔥', name: 'Upgrade de Experiência', desc: 'Combo ou adição de margem alta oferecido como benefício exclusivo.', trigger: 'Ativado: recência ≤ 14 dias' },
+      { icon: '👥', name: 'Oferta Acompanhado', desc: 'Estímulo para trazer alguém — aumenta ticket médio da mesa.', trigger: 'Ativado: perfil "vai acompanhado"' },
+    ]
+  },
+  prata: {
+    name: 'Prata — Score 60–74',
+    sub: 'Tier Prata · Crescimento de frequência',
+    campaigns: [
+      { icon: '📅', name: 'Estímulo de Frequência', desc: 'Campanhas que incentivam o retorno dentro de janelas de tempo específicas.', trigger: 'Ativado: recência 15–30 dias' },
+      { icon: '🍜', name: 'Destaque do Favorito', desc: 'Comunica novidade relacionada ao prato ou categoria favorita do cliente.', trigger: 'Ativado: prato identificado' },
+      { icon: '🎯', name: 'Experimentação', desc: 'Estímulo para consumir categoria nunca pedida (ex: sobremesa, entrada).', trigger: 'Ativado: categoria com 0 pedidos' },
+    ]
+  },
+  bronze: {
+    name: 'Bronze — Score 40–59',
+    sub: 'Tier Bronze · Engajamento inicial',
+    campaigns: [
+      { icon: '📲', name: 'Engajamento Digital', desc: 'Campanhas que estimulam abertura, resposta de pesquisa e ativação de cupom.', trigger: 'Ativado: engajamento < 40 pts' },
+      { icon: '🏷️', name: 'Primeira Oferta Real', desc: 'Incentivo tangível para a próxima visita — gerador de segunda conversão.', trigger: 'Ativado: 2ª visita não realizada' },
+      { icon: '💡', name: 'Educação de Valor', desc: 'Comunicação sobre o que o Nashy oferece — cria percepção de valor.', trigger: 'Ativado: recência 30+ dias' },
+    ]
+  },
+  rec: {
+    name: 'Em Recuperação — Score < 40',
+    sub: 'Tier Recuperação · Gatilho urgente',
+    campaigns: [
+      { icon: '🚨', name: 'Gatilho Forte Personalizado', desc: 'Oferta direta baseada no histórico do cliente. Urgência real, proposta clara.', trigger: 'Ativado: recência > 90 dias' },
+      { icon: '💌', name: 'Campanha de Retorno Especial', desc: 'Convite VIP temporário — "estamos com saudade" com proposta exclusiva de volta.', trigger: 'Ativado: bom histórico + longa ausência' },
+      { icon: '🔍', name: 'Pesquisa de Causa', desc: 'Entender por que sumiu. Dados úteis para produto e operação.', trigger: 'Ativado: detrator ou sem NPS' },
+    ]
+  }
+};
+
+function showTierPanel(tier) {
+  const data = tierData[tier];
+  document.getElementById('panel-title').textContent = data.name;
+  document.getElementById('panel-subtitle').textContent = data.sub;
+  const grid = document.getElementById('panel-campaigns');
+  grid.innerHTML = data.campaigns.map(c => `
+    <div class="campaign-card">
+      <div class="campaign-icon">${c.icon}</div>
+      <div class="campaign-name">${c.name}</div>
+      <div class="campaign-desc">${c.desc}</div>
+      <div class="campaign-trigger">${c.trigger}</div>
+    </div>
+  `).join('');
+  const panel = document.getElementById('tier-detail');
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`.tier-card.${tier}`).classList.add('selected');
+}
+
+function closePanel() {
+  document.getElementById('tier-detail').classList.remove('visible');
+  document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const tabs = ['fluxo','score','segmentacao','alwayson','mensagens'];
+    t.classList.toggle('active', tabs[i] === tab);
+  });
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + tab).classList.add('active');
+}
+
+function switchPersona(name) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.persona-view').forEach(v => v.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('persona-' + name).classList.add('active');
+}
+</script>
+</body>
+</html>
